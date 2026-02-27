@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miles for Smiles | Volunteer Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,800;1,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="desktop-only">
+        <div class="logo-container">
+            <span class="logo-text">Miles <span class="logo-accent">For</span> Smiles</span>
+        </div>
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="switchTab('dashboard')">Overview</button>
+            <button class="nav-btn" onclick="switchTab('registration')">Registration</button>
+            <button class="nav-btn" onclick="switchTab('racekit')">Race Kit</button>
+        </div>
+    </nav>
+
+    <div class="mobile-header">
+        <span class="logo-text" style="color: white;">Miles <span class="logo-accent">For</span> Smiles</span>
+    </div>
+    <nav class="mobile-only-nav" style="display: flex; justify-content: space-around; width: 100%; background: rgba(11, 29, 58, 0.95); padding: 10px;">
+        <button class="nav-btn active" onclick="switchTab('dashboard')">Overview</button>
+        <button class="nav-btn" onclick="switchTab('registration')">Register</button>
+        <button class="nav-btn" onclick="switchTab('racekit')">Kits</button>
+    </nav>
+
+    <main>
+        <section id="dashboard" class="page-section active glass-card">
+            <h2>Live Statistics</h2>
+            
+            <div id="dash-loading" style="text-align: center; color: var(--accent-yellow); font-style: italic;">
+                <div class="loader-spinner"></div>
+                Syncing with server...
+            </div>
+
+            <div id="dash-content" style="display: none;">
+                <div class="dashboard-stats">
+                    <div class="stat-card stat-total">
+                        <h4>Total Active Runners</h4>
+                        <div class="stat-value" id="stat-total">--</div>
+                    </div>
+                    <div class="stat-card stat-refunds">
+                        <h4>Total Refunds</h4>
+                        <div class="stat-value" id="stat-refunds" style="color: #ef4444;">--</div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px; font-size: 1.2rem; color: var(--accent-yellow);">Format Breakdown</h3>
+                
+                <div class="cards-grid" style="margin-top: 15px;">
+                    <div class="stat-card stat-5k-timed">
+                        <h4>5K Timed</h4>
+                        <div class="stat-value" id="stat-5k-timed">--</div>
+                    </div>
+                    <div class="stat-card stat-5k-untimed">
+                        <h4>5K Untimed</h4>
+                        <div class="stat-value" id="stat-5k-untimed">--</div>
+                    </div>
+                    <div class="stat-card stat-10k-timed">
+                        <h4>10K Timed</h4>
+                        <div class="stat-value" id="stat-10k-timed">--</div>
+                    </div>
+                    <div class="stat-card stat-10k-untimed">
+                        <h4>10K Untimed</h4>
+                        <div class="stat-value" id="stat-10k-untimed">--</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="registration" class="page-section glass-card">
+            <h2>Verify Runner</h2>
+            
+            <div class="search-tabs">
+                <button class="search-tab active">Booking ID</button>
+                <button class="search-tab">Email ID</button>
+                <button class="search-tab" style="color: var(--accent-yellow);">[+] Scan QR</button>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="search-input" class="cyber-input" placeholder="Enter ID (e.g. DFCG00HJ4K...)">
+                <button class="cyber-btn" onclick="handleSearch()">Search</button>
+            </div>
+
+            <div id="registration-results" style="margin-top: 30px;">
+                </div>
+        </section>
+
+        <section id="racekit" class="page-section glass-card">
+            <h2>Race Kit Distribution</h2>
+            <p style="color: var(--text-muted);">Kit distribution module goes here.</p>
+        </section>
+
+    </main>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
