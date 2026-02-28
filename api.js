@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwgnIwKpA35satYWU1gsa7Jo6836qfinIaIFi92LUTG3SJjjYBzli4obyO7i2DDILwV/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwDBOW6vqteTgfTOTQ9uoxITUySQVCn__3sJUEd9cmsALgWrQ_n5TBR1BEO4nMXPju3bg/exec";
 
 async function fetchDashboardStats() {
     try {
@@ -33,27 +33,17 @@ async function submitParticipants(participantsData) {
     }
 }
 
-// NEW: Fetch from Participant Sheet
-async function lookupParticipant(bookingId) {
+// NEW: Send ON-SPOT data & image
+async function submitOnSpot(onSpotData) {
     try {
-        const response = await fetch(`${API_URL}?action=lookupParticipant&bookingId=${encodeURIComponent(bookingId)}`);
-        return await response.json();
-    } catch (error) {
-        console.error("Error looking up participant:", error);
-        return null;
-    }
-}
-
-// NEW: Update Existing Rows for Timed Bibs
-async function updateTimedParticipants(participantsData) {
-    try {
+        onSpotData.action = "onspot";
         const response = await fetch(API_URL, {
             method: 'POST',
-            body: JSON.stringify({ action: "updateTimed", participants: participantsData })
+            body: JSON.stringify(onSpotData)
         });
         return await response.json();
     } catch (error) {
-        console.error("Error updating timed participants:", error);
+        console.error("Error saving onspot:", error);
         return { success: false, error: "Network error" };
     }
 }

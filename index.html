@@ -17,6 +17,7 @@
         <div class="nav-links">
             <button class="nav-btn active" onclick="switchTab('dashboard', event)">Overview</button>
             <button class="nav-btn" onclick="switchTab('registration', event)">Registration</button>
+            <button class="nav-btn" onclick="switchTab('onspot', event)">On-Spot</button>
             <button class="nav-btn" onclick="switchTab('racekit', event)">Race Kit</button>
         </div>
     </nav>
@@ -28,49 +29,27 @@
     <nav class="mobile-only-nav">
         <button class="nav-btn active" onclick="switchTab('dashboard', event)">Overview</button>
         <button class="nav-btn" onclick="switchTab('registration', event)">Register</button>
+        <button class="nav-btn" onclick="switchTab('onspot', event)">On-Spot</button>
         <button class="nav-btn" onclick="switchTab('racekit', event)">Kits</button>
     </nav>
 
     <main>
         <section id="dashboard" class="page-section active glass-card">
             <h2>Live Statistics</h2>
-            
             <div id="dash-loading" style="text-align: center; color: var(--accent-yellow); font-style: italic;">
-                <div class="loader-spinner"></div>
-                Syncing with server...
+                <div class="loader-spinner"></div>Syncing with server...
             </div>
-
             <div id="dash-content" style="display: none;">
                 <div class="dashboard-stats">
-                    <div class="stat-card stat-total">
-                        <h4>Total Active Runners</h4>
-                        <div class="stat-value" id="stat-total">--</div>
-                    </div>
-                    <div class="stat-card stat-refunds">
-                        <h4>Total Refunds</h4>
-                        <div class="stat-value" id="stat-refunds" style="color: #ef4444;">--</div>
-                    </div>
+                    <div class="stat-card stat-total"><h4>Total Active Runners</h4><div class="stat-value" id="stat-total">--</div></div>
+                    <div class="stat-card stat-refunds"><h4>Total Refunds</h4><div class="stat-value" id="stat-refunds" style="color: #ef4444;">--</div></div>
                 </div>
-
                 <h3 style="margin-top: 30px; font-size: 1.2rem; color: var(--accent-yellow);">Format Breakdown</h3>
-                
                 <div class="cards-grid" style="margin-top: 15px;">
-                    <div class="stat-card stat-5k-timed">
-                        <h4>5K Timed</h4>
-                        <div class="stat-value" id="stat-5k-timed">--</div>
-                    </div>
-                    <div class="stat-card stat-5k-untimed">
-                        <h4>5K Untimed</h4>
-                        <div class="stat-value" id="stat-5k-untimed">--</div>
-                    </div>
-                    <div class="stat-card stat-10k-timed">
-                        <h4>10K Timed</h4>
-                        <div class="stat-value" id="stat-10k-timed">--</div>
-                    </div>
-                    <div class="stat-card stat-10k-untimed">
-                        <h4>10K Untimed</h4>
-                        <div class="stat-value" id="stat-10k-untimed">--</div>
-                    </div>
+                    <div class="stat-card stat-5k-timed"><h4>5K Timed</h4><div class="stat-value" id="stat-5k-timed">--</div></div>
+                    <div class="stat-card stat-5k-untimed"><h4>5K Untimed</h4><div class="stat-value" id="stat-5k-untimed">--</div></div>
+                    <div class="stat-card stat-10k-timed"><h4>10K Timed</h4><div class="stat-value" id="stat-10k-timed">--</div></div>
+                    <div class="stat-card stat-10k-untimed"><h4>10K Untimed</h4><div class="stat-value" id="stat-10k-untimed">--</div></div>
                 </div>
             </div>
         </section>
@@ -82,17 +61,63 @@
                 <button class="search-tab" onclick="switchSearchMode('email', event)">Email ID</button>
                 <button class="search-tab" style="color: var(--accent-yellow);" onclick="switchSearchMode('qr', event)">[+] Scan QR</button>
             </div>
-            
             <div class="input-group" id="manual-input-group">
                 <input type="text" id="search-input" class="cyber-input" placeholder="Enter ID (e.g. DFCG...)">
                 <button class="cyber-btn" onclick="handleSearch()">Search</button>
             </div>
-
             <div id="qr-reader-group" style="display: none; width: 100%; max-width: 400px; margin: 20px auto 0; border: 2px solid var(--accent-yellow); border-radius: 8px; overflow: hidden; background: white;">
                 <div id="qr-reader" style="width: 100%;"></div>
             </div>
-
             <div id="registration-results" style="margin-top: 30px;"></div>
+        </section>
+
+        <section id="onspot" class="page-section glass-card">
+            <h2>New On-Spot Booking</h2>
+            
+            <div id="onspot-form-container">
+                <div class="runner-card" style="border-color: var(--accent-yellow);">
+                    <div class="card-body">
+                        <input type="text" id="os-name" class="cyber-input" placeholder="Buyer Name" required>
+                        <input type="email" id="os-email" class="cyber-input" placeholder="Email Address" required>
+                        <input type="tel" id="os-contact" class="cyber-input" placeholder="Contact Number" required>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <select id="os-format" class="cyber-input" style="flex: 2;" required onchange="calculatePrice()">
+                                <option value="" disabled selected>Select Format</option>
+                                <option value="5K: Timed">5K: Timed (₹499)</option>
+                                <option value="5K: Untimed">5K: Untimed (₹399)</option>
+                                <option value="10K: Timed">10K: Timed (₹699)</option>
+                                <option value="10K: Untimed">10K: Untimed (₹599)</option>
+                            </select>
+                            <input type="number" id="os-tickets" class="cyber-input" style="flex: 1;" placeholder="Tickets" value="1" min="1" oninput="calculatePrice()" required>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <div style="flex: 1;">
+                                <label style="font-size: 0.8rem; color: var(--text-muted);">Calculated Amt (₹)</label>
+                                <input type="number" id="os-calculated" class="cyber-input" readonly style="background: rgba(0,0,0,0.5); color: #fff; opacity: 0.8;">
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="font-size: 0.8rem; color: var(--text-muted);">Amt Collected (₹)</label>
+                                <input type="number" id="os-collected" class="cyber-input" style="border-color: #10b981; color: #10b981;" required>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 15px;">
+                            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px;">Payment Proof (Photo)</label>
+                            <input type="file" id="os-proof" accept="image/*" capture="environment" class="cyber-input" style="padding: 8px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="cyber-btn" id="os-confirm-btn" onclick="handleOnSpotSubmit()" style="width: 100%; max-width: 300px;">
+                        Confirm Booking
+                    </button>
+                </div>
+            </div>
+
+            <div id="onspot-runner-results" style="margin-top: 20px;"></div>
         </section>
 
         <section id="racekit" class="page-section glass-card">
